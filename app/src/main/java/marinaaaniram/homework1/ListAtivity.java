@@ -18,8 +18,6 @@ public class ListAtivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_ativity);
 
-        MainActivity.getInstance().finish();
-
         String[] text1000 = new String[listSize];
         Integer[] image1000 = new Integer[listSize];
 
@@ -33,3 +31,4 @@ public class ListAtivity extends ActionBarActivity {
         listView.setAdapter(customListAdapter);
     }
 }
+

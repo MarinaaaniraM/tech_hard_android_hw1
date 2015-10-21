@@ -1,36 +1,41 @@
 package marinaaaniram.homework1;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import java.util.concurrent.TimeUnit;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     static MainActivity mainActivity;
-    private Timer timer;
+    private TimerAsyncTask timerAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainActivity = this;
 
-        timer = new Timer();
-        timer.execute();
+        timerAsyncTask = new TimerAsyncTask();
+        timerAsyncTask.execute();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        timerAsyncTask.cancel(true);
+
     }
 
     public static MainActivity getInstance() {
         return mainActivity;
     }
 
-    class Timer extends AsyncTask<Void, Void, Void> {
+    class TimerAsyncTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -40,7 +45,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                TimeUnit.SECONDS.sleep(2);
+                TimeUnit.SECONDS.sleep(5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -52,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
             super.onPostExecute(result);
             Intent intent = new Intent(MainActivity.this, ListAtivity.class);
             startActivity(intent);
+            finish();
         }
     }
 
